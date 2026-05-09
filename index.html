@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC WORLD — Remote Control Heavy Machinery Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF6B00;
+    --orange-dim: #cc5500;
+    --yellow: #FFD000;
+    --dark: #0a0a0a;
+    --dark2: #111111;
+    --dark3: #1a1a1a;
+    --gray: #888;
+    --light: #f0ece4;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--orange);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(255,107,0,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+
+  /* ===== HERO ===== */
+  #hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 8vw;
+    overflow: hidden;
+    background: var(--dark);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,107,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,107,0,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+  @keyframes gridShift {
+    from { transform: translateY(0); }
+    to { transform: translateY(60px); }
+  }
+
+  .hero-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.15) 2px,
+      rgba(0,0,0,0.15) 4px
+    );
+    pointer-events: none;
+  }
+
+  /* Animated machines in background */
+  .hero-machine {
+    position: absolute;
+    right: -5%;
+    bottom: 0;
+    width: 55%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: machineFloat 6s ease-in-out infinite;
+  }
+  @keyframes machineFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .excavator-svg {
+    width: 100%;
+    filter: drop-shadow(0 0 40px rgba(255,107,0,0.3));
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--orange);
+    color: var(--dark);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    padding: 6px 16px;
+    margin-bottom: 24px;
+    animation: fadeSlideUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 12vw, 13rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    animation: fadeSlideUp 0.8s 0.15s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-title span {
+    color: var(--orange);
+    display: block;
+  }
+
+  .hero-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-top: 24px;
+    animation: fadeSlideUp 0.8s 0.3s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-cta {
+    margin-top: 48px;
+    display: flex;
+    gap: 16px;
+    animation: fadeSlideUp 0.8s 0.45s ease forwards;
+    opacity: 0;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: var(--dark);
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    padding: 16px 40px;
+    cursor: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-primary:hover { background: var(--yellow); transform: translateY(-2px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    padding: 16px 40px;
+    cursor: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 60px;
+    left: 8vw;
+    display: flex;
+    gap: 60px;
+    animation: fadeSlideUp 0.8s 0.6s ease forwards;
+    opacity: 0;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 60px;
+    right: 8vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeSlideUp 0.8s 0.75s ease forwards;
+    opacity: 0;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(var(--orange), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.5); transform-origin: top; }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+  .scroll-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--gray);
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SECTION COMMON ===== */
+  section {
+    padding: 120px 8vw;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+  }
+
+  /* ===== CONCEPT ===== */
+  #concept {
+    background: var(--dark2);
+  }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: center;
+  }
+
+  .concept-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 24px;
+  }
+
+  .concept-text p strong {
+    color: var(--orange);
+    font-weight: 600;
+  }
+
+  .concept-visual {
+    position: relative;
+  }
+
+  .phone-mockup {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  #howitworks {
+    background: var(--dark);
+  }
+
+  .steps-container {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .step {
+    background: var(--dark);
+    padding: 48px 32px;
+    position: relative;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s;
+    overflow: hidden;
+  }
+  .step:hover { border-color: var(--orange); }
+  .step:hover .step-bg { opacity: 1; }
+
+  .step-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,107,0,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: rgba(255,107,0,0.12);
+    line-height: 1;
+    position: absolute;
+    top: 16px;
+    right: 24px;
+  }
+
+  .step-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    color: var(--orange);
+  }
+
+  .step-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ===== FLEET ===== */
+  #fleet {
+    background: var(--dark2);
+    overflow: hidden;
+  }
+
+  .fleet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .fleet-card {
+    background: var(--dark);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    transition: transform 0.3s;
+  }
+  .fleet-card:hover { transform: translateY(-4px); }
+  .fleet-card:hover .fleet-card-line { transform: scaleX(1); }
+  .fleet-card:hover .fleet-icon-wrap { color: var(--orange); }
+
+  .fleet-card-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .fleet-tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    background: rgba(255,107,0,0.1);
+    padding: 4px 10px;
+    margin-bottom: 20px;
+  }
+
+  .fleet-icon-wrap {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    color: rgba(255,255,255,0.3);
+    transition: color 0.3s;
+  }
+
+  .fleet-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .fleet-spec {
+    font-size: 0.8rem;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .fleet-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .fleet-price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--orange);
+  }
+  .fleet-price-unit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== CAMERA SYSTEM ===== */
+  #cameras {
+    background: var(--dark);
+  }
+
+  .camera-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: center;
+  }
+
+  .camera-mockup {
+    position: relative;
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.08);
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+
+  .cam-hud {
+    position: absolute;
+    inset: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cam-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .rec-dot {
+    width: 8px; height: 8px;
+    background: red;
+    border-radius: 50%;
+    animation: recBlink 1s ease-in-out infinite;
+  }
+  @keyframes recBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .cam-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+  }
+
+  .cam-crosshair {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    pointer-events: none;
+  }
+
+  .cam-crosshair::before,
+  .cam-crosshair::after {
+    content: '';
+    position: absolute;
+    background: rgba(255,107,0,0.5);
+  }
+  .cam-crosshair::before { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); }
+  .cam-crosshair::after { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); }
+
+  .cam-scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .cam-scene-svg {
+    width: 110%;
+    opacity: 0.5;
+    animation: camPan 8s ease-in-out infinite;
+  }
+  @keyframes camPan {
+    0%, 100% { transform: translateX(-5%); }
+    50% { transform: translateX(5%); }
+  }
+
+  .cam-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cam-selector {
+    display: flex;
+    gap: 4px;
+  }
+
+  .cam-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    cursor: none;
+    transition: all 0.2s;
+  }
+  .cam-btn.active {
+    background: var(--orange);
+    color: var(--dark);
+    border-color: var(--orange);
+  }
+
+  /* Camera view switching */
+  .cam-view {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .cam-view.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .cam-timer {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--orange);
+    padding: 4px 10px;
+    border: 1px solid rgba(255,107,0,0.3);
+  }
+
+  .camera-features {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .cam-feature {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .cam-feature:last-child { border-bottom: none; }
+
+  .cam-feature-icon {
+    width: 44px; height: 44px;
+    background: rgba(255,107,0,0.1);
+    border: 1px solid rgba(255,107,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--orange);
+    font-size: 1.2rem;
+  }
+
+  .cam-feature-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .cam-feature-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  /* ===== PRICING ===== */
+  #pricing {
+    background: var(--dark2);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .price-card {
+    background: var(--dark);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .price-card.featured {
+    background: var(--orange);
+    color: var(--dark);
+    transform: scale(1.02);
+    z-index: 1;
+  }
+  .price-card:not(.featured):hover { transform: translateY(-4px); }
+
+  .price-featured-tag {
+    position: absolute;
+    top: 20px;
+    right: -20px;
+    background: var(--yellow);
+    color: var(--dark);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    transform-origin: center;
+  }
+
+  .price-tier {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.6;
+  }
+  .price-card.featured .price-tier { opacity: 0.8; color: var(--dark); }
+
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-card.featured .price-amount { color: var(--dark); }
+
+  .price-duration {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .price-features li {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+  }
+  .price-features li::before {
+    content: '→';
+    color: var(--orange);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+  }
+  .price-card.featured .price-features li::before { color: var(--dark); }
+
+  .price-cta {
+    display: block;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.2s;
+  }
+  .price-cta:hover { border-color: var(--orange); color: var(--orange); }
+  .price-card.featured .price-cta {
+    background: var(--dark);
+    color: var(--orange);
+    border-color: var(--dark);
+  }
+  .price-card.featured .price-cta:hover { background: var(--dark2); }
+
+  /* ===== TECH STACK ===== */
+  #tech {
+    background: var(--dark);
+  }
+
+  .tech-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+
+  .tech-item {
+    flex: 1;
+    min-width: 180px;
+    background: var(--dark3);
+    padding: 40px 28px;
+    text-align: center;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tech-item:hover { background: rgba(255,107,0,0.08); }
+
+  .tech-item-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .tech-item-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tech-item-desc {
+    font-size: 0.75rem;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* ===== LIVE STREAM ===== */
+  #livestream {
+    background: var(--dark2);
+    padding: 120px 8vw;
+  }
+
+  .stream-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+
+  .stream-visual {
+    position: relative;
+    background: #000;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .stream-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,0,0,0.05) 0%, transparent 50%);
+  }
+
+  .stream-hud-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(rgba(0,0,0,0.6), transparent);
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: red;
+    padding: 4px 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .viewer-count {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stream-scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0a;
+    overflow: hidden;
+  }
+
+  .stream-scene-inner {
+    animation: scenePan 12s ease-in-out infinite alternate;
+  }
+  @keyframes scenePan {
+    from { transform: scale(1.05) translateX(-3%); }
+    to { transform: scale(1.05) translateX(3%); }
+  }
+
+  .stream-hud-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 16px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    display: flex;
+    gap: 8px;
+  }
+
+  .platform-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .stream-info {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .stream-feature {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .stream-feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: rgba(255,107,0,0.2);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 50px;
+  }
+
+  .stream-feature-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+  .stream-feature-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  /* ===== INVESTMENT ===== */
+  #investment {
+    background: var(--dark);
+  }
+
+  .invest-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+  }
+
+  .invest-table {
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .invest-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.2s;
+  }
+  .invest-row:hover { background: rgba(255,107,0,0.04); }
+  .invest-row:last-child { border-bottom: none; }
+  .invest-row.total {
+    background: rgba(255,107,0,0.08);
+    border-top: 1px solid rgba(255,107,0,0.3);
+  }
+
+  .invest-item-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.7);
+  }
+  .invest-row.total .invest-item-name {
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .invest-item-price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .invest-row.total .invest-item-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--orange);
+  }
+
+  .invest-projections {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+  }
+
+  .projection-card {
+    background: var(--dark3);
+    padding: 28px;
+    border-left: 3px solid var(--orange);
+  }
+
+  .projection-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 8px;
+  }
+  .projection-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .projection-note {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+  }
+
+  /* ===== CTA ===== */
+  #cta {
+    background: var(--orange);
+    padding: 160px 8vw;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30vw;
+    color: rgba(0,0,0,0.08);
+    white-space: nowrap;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 10rem);
+    color: var(--dark);
+    line-height: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    color: rgba(0,0,0,0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 24px 0 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--dark);
+    color: var(--orange);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 20px 60px;
+    cursor: none;
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 1;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+  .cta-btn:hover { background: #111; color: var(--yellow); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--dark);
+    padding: 48px 8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+  }
+  .footer-logo span { color: var(--orange); }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--gray);
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== SCROLL REVEAL ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: padding 0.3s;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+  }
+  .nav-logo span { color: var(--orange); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    cursor: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+
+  .nav-cta {
+    background: var(--orange);
+    color: var(--dark) !important;
+    padding: 8px 24px;
+    font-weight: 700 !important;
+    color: var(--dark);
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--yellow) !important; color: var(--dark) !important; }
+
+  @media (max-width: 900px) {
+    .concept-grid, .camera-layout, .stream-layout, .invest-grid { grid-template-columns: 1fr; gap: 40px; }
+    .fleet-grid, .steps-container, .pricing-grid { grid-template-columns: 1fr; }
+    .hero-machine { display: none; }
+    nav .nav-links { display: none; }
+    .hero-stats { gap: 30px; }
+    .fleet-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">RC<span>WORLD</span></div>
+  <ul class="nav-links">
+    <li><a href="#concept">Concept</a></li>
+    <li><a href="#fleet">Fleet</a></li>
+    <li><a href="#cameras">Cameras</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#investment">Investment</a></li>
+    <li><a href="#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-scanlines"></div>
+
+  <div class="hero-badge">★ The Future of Remote Entertainment</div>
+
+  <h1 class="hero-title">
+    RC<br>
+    <span>WORLD</span>
+  </h1>
+
+  <p class="hero-sub">Control Real Heavy Machinery — From Anywhere on Earth</p>
+
+  <div class="hero-cta">
+    <button class="btn-primary">Explore the Fleet</button>
+    <button class="btn-secondary">Watch Demo</button>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">11+</div>
+      <div class="stat-label">RC Machines</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Camera Angles</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Live Operation</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Global Access</div>
+    </div>
+  </div>
+
+  <!-- Excavator SVG illustration -->
+  <div class="hero-machine">
+    <svg class="excavator-svg" viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ground shadow -->
+      <ellipse cx="300" cy="470" rx="220" ry="20" fill="rgba(255,107,0,0.08)"/>
+      <!-- Tracks -->
+      <rect x="60" y="380" width="220" height="60" rx="30" fill="#222"/>
+      <rect x="80" y="390" width="180" height="40" rx="20" fill="#1a1a1a"/>
+      <!-- track wheels -->
+      <circle cx="100" cy="410" r="22" fill="#333" stroke="#444" stroke-width="2"/>
+      <circle cx="160" cy="410" r="18" fill="#333" stroke="#444" stroke-width="2"/>
+      <circle cx="220" cy="410" r="22" fill="#333" stroke="#444" stroke-width="2"/>
+      <circle cx="100" cy="410" r="10" fill="#222"/>
+      <circle cx="220" cy="410" r="10" fill="#222"/>
+      <!-- Body -->
+      <rect x="80" y="290" width="200" height="100" rx="8" fill="#CC5500"/>
+      <rect x="90" y="300" width="180" height="80" rx="6" fill="#FF6B00"/>
+      <!-- Cab -->
+      <rect x="110" y="220" width="120" height="80" rx="8" fill="#FF6B00"/>
+      <rect x="120" y="228" width="100" height="60" rx="4" fill="rgba(0,200,255,0.15)" stroke="rgba(0,200,255,0.4)" stroke-width="1"/>
+      <!-- Windows -->
+      <rect x="125" y="233" width="40" height="35" rx="3" fill="rgba(0,200,255,0.2)"/>
+      <rect x="175" y="233" width="35" height="35" rx="3" fill="rgba(0,200,255,0.2)"/>
+      <!-- Counterweight -->
+      <rect x="60" y="300" width="30" height="70" rx="4" fill="#AA4400"/>
+      <!-- Boom arm -->
+      <rect x="195" y="155" width="16" height="140" rx="8" fill="#CC5500" transform="rotate(-30 195 155)"/>
+      <!-- Stick -->
+      <rect x="295" y="130" width="12" height="120" rx="6" fill="#FF6B00" transform="rotate(20 295 130)"/>
+      <!-- Bucket -->
+      <path d="M 350 240 L 400 230 L 420 260 L 380 280 L 340 270 Z" fill="#333" stroke="#555" stroke-width="2"/>
+      <!-- Hydraulic cylinders -->
+      <rect x="200" y="200" width="8" height="60" rx="4" fill="#888" transform="rotate(-15 200 200)"/>
+      <rect x="280" y="180" width="6" height="50" rx="3" fill="#888" transform="rotate(10 280 180)"/>
+      <!-- Orange glow under machine -->
+      <ellipse cx="180" cy="450" rx="150" ry="8" fill="rgba(255,107,0,0.15)"/>
+      <!-- Camera indicators -->
+      <circle cx="150" cy="235" r="6" fill="var(--orange)">
+        <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="320" cy="160" r="5" fill="red">
+        <animate attributeName="opacity" values="1;0;1" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-text">Scroll</div>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section id="concept">
+  <div class="section-label">The Concept</div>
+  <h2 class="section-title reveal">REAL MACHINES.<br>REMOTE CONTROL.</h2>
+
+  <div class="concept-grid">
+    <div class="concept-text reveal">
+      <p>RC WORLD is a first-of-its-kind <strong>remote operation entertainment platform</strong> where users worldwide can take the controls of real, full-scale RC hydraulic machinery — excavators, dump trucks, loaders, and breakers — from anywhere on the planet.</p>
+      <p>Book a session. Choose your machine. Select your camera angle. <strong>Start digging.</strong> Watch yourself live on YouTube or Twitch. Our professionally designed job site arena becomes your personal sandbox — and the world's entertainment.</p>
+      <p>With <strong>Raspberry Pi 5 onboard computers</strong>, real hydraulic mechanics, and multi-angle HD cameras, every session is broadcast-quality and completely unique.</p>
+    </div>
+    <div class="concept-visual reveal">
+      <!-- Website mockup -->
+      <div style="background: #111; border: 1px solid rgba(255,107,0,0.2); border-radius: 8px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.5);">
+        <!-- Browser bar -->
+        <div style="background: #1a1a1a; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <div style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></div>
+          <div style="width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></div>
+          <div style="width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></div>
+          <div style="flex: 1; background: #222; border-radius: 4px; padding: 4px 12px; margin-left: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; color: #555; letter-spacing: 0.1em;">rcworld.io/book</div>
+        </div>
+        <!-- App content -->
+        <div style="padding: 24px;">
+          <!-- Machine selector -->
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 12px;">Select Machine</div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 20px;">
+            <div style="background: rgba(255,107,0,0.15); border: 1px solid var(--orange); padding: 8px; text-align: center; border-radius: 4px;">
+              <div style="font-size: 1.4rem;">🚜</div>
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--orange); margin-top: 4px;">Excavator</div>
+            </div>
+            <div style="background: #1a1a1a; padding: 8px; text-align: center; border-radius: 4px;">
+              <div style="font-size: 1.4rem;">🚛</div>
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; color: #555; margin-top: 4px;">Dump Truck</div>
+            </div>
+            <div style="background: #1a1a1a; padding: 8px; text-align: center; border-radius: 4px;">
+              <div style="font-size: 1.4rem;">🏗️</div>
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; letter-spacing: 0.1em; color: #555; margin-top: 4px;">Loader</div>
+            </div>
+          </div>
+          <!-- Session duration -->
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 12px;">Session Duration</div>
+          <div style="display: flex; gap: 4px; margin-bottom: 20px;">
+            <div style="flex:1; background: #1a1a1a; padding: 10px; text-align: center; border-radius: 4px;">
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; color: #555;">30m</div>
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; color: #444; margin-top: 2px;">$15</div>
+            </div>
+            <div style="flex:1; background: rgba(255,107,0,0.15); border: 1px solid var(--orange); padding: 10px; text-align: center; border-radius: 4px;">
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--orange);">1hr</div>
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; color: var(--orange); opacity: 0.7; margin-top: 2px;">$30</div>
+            </div>
+            <div style="flex:1; background: #1a1a1a; padding: 10px; text-align: center; border-radius: 4px;">
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; color: #555;">2hr</div>
+              <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; color: #444; margin-top: 2px;">$55</div>
+            </div>
+          </div>
+          <!-- CTA -->
+          <div style="background: var(--orange); padding: 12px; text-align: center; border-radius: 4px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.15em; color: #0a0a0a; text-transform: uppercase;">Book Session — $30.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="howitworks">
+  <div class="section-label">Process</div>
+  <h2 class="section-title reveal">HOW IT<br>WORKS</h2>
+
+  <div class="steps-container">
+    <div class="step reveal">
+      <div class="step-bg"></div>
+      <div class="step-num">01</div>
+      <svg class="step-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="24" cy="24" r="20"/><path d="M24 12v12l8 4"/>
+      </svg>
+      <div class="step-title">Sign Up & Book</div>
+      <div class="step-desc">Create your account, browse available machines, and reserve your time slot. Choose from 30-minute to multi-hour sessions.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-bg"></div>
+      <div class="step-num">02</div>
+      <svg class="step-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="8" y="8" width="32" height="32" rx="4"/><path d="M16 24h16M24 16v16"/>
+      </svg>
+      <div class="step-title">Choose Your Machine</div>
+      <div class="step-desc">Select from excavators, dump trucks, hydraulic loaders, and breakers — each with distinct real-world mechanics.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-bg"></div>
+      <div class="step-num">03</div>
+      <svg class="step-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M8 32 L24 8 L40 32Z"/><circle cx="24" cy="36" r="4"/>
+      </svg>
+      <div class="step-title">Take Control</div>
+      <div class="step-desc">Your session begins. Control the machine in real-time via your browser. Switch between Front, Left, and Right camera angles.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-bg"></div>
+      <div class="step-num">04</div>
+      <svg class="step-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="24" cy="24" r="4"/><path d="M8 8l10 10M40 8L30 18M8 40l10-10M40 40L30 30"/>
+      </svg>
+      <div class="step-title">Go Live Worldwide</div>
+      <div class="step-desc">A wide-angle arena camera streams your session live to YouTube or Twitch — building your audience as you work.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section id="fleet">
+  <div class="fleet-header reveal">
+    <div>
+      <div class="section-label">Machinery</div>
+      <h2 class="section-title">THE<br>FLEET</h2>
+    </div>
+    <p style="max-width: 340px; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--gray); line-height: 1.7; letter-spacing: 0.05em;">11 machines. Real hydraulics. Built for performance, equipped for broadcast.</p>
+  </div>
+
+  <div class="fleet-grid">
+    <div class="fleet-card reveal">
+      <div class="fleet-card-line"></div>
+      <div class="fleet-tag">Excavator</div>
+      <div class="fleet-icon-wrap">🚜</div>
+      <div class="fleet-name">JDM-208 R920</div>
+      <div class="fleet-spec">1/14 Scale · Hydraulic · Full RC · 3-Camera · Boom + Bucket control</div>
+      <div class="fleet-price">
+        <div class="fleet-price-amount">$30</div>
+        <div class="fleet-price-unit">/ hour</div>
+      </div>
+    </div>
+    <div class="fleet-card reveal">
+      <div class="fleet-card-line"></div>
+      <div class="fleet-tag">Excavator</div>
+      <div class="fleet-icon-wrap">🚜</div>
+      <div class="fleet-name">VOLVO EC160E</div>
+      <div class="fleet-spec">1/14 Scale · Hydraulic · Licensed body · 360° rotation · Premium</div>
+      <div class="fleet-price">
+        <div class="fleet-price-amount">$30</div>
+        <div class="fleet-price-unit">/ hour</div>
+      </div>
+    </div>
+    <div class="fleet-card reveal">
+      <div class="fleet-card-line"></div>
+      <div class="fleet-tag">Dump Truck</div>
+      <div class="fleet-icon-wrap">🚛</div>
+      <div class="fleet-name">Kabolite K3362</div>
+      <div class="fleet-spec">1/14 · 4×4 Metal · Hydraulic Tipper · Light & Sound · TAMIYA spec</div>
+      <div class="fleet-price">
+        <div class="fleet-price-amount">$30</div>
+        <div class="fleet-price-unit">/ hour</div>
+      </div>
+    </div>
+    <div class="fleet-card reveal">
+      <div class="fleet-card-line"></div>
+      <div class="fleet-tag">Dump Truck</div>
+      <div class="fleet-icon-wrap">🚚</div>
+      <div class="fleet-name">6×6 Hydraulic Dumper</div>
+      <div class="fleet-spec">1/14 · 2-Speed Gearbox · Sound + Light · Painted & Assembled</div>
+      <div class="fleet-price">
+        <div class="fleet-price-amount">$30</div>
+        <div class="fleet-price-unit">/ hour</div>
+      </div>
+    </div>
+    <div class="fleet-card reveal">
+      <div class="fleet-card-line"></div>
+      <div class="fleet-tag">Loader</div>
+      <div class="fleet-icon-wrap">🏗️</div>
+      <div class="fleet-name">Kabolite K966</div>
+      <div class="fleet-spec">1/16 · 2.4G · Hydraulic Front Loader · 7500mAh · Construction Vehicle</div>
+      <div class="fleet-price">
+        <div class="fleet-price-amount">$30</div>
+        <div class="fleet-price-unit">/ hour</div>
+      </div>
+    </div>
+    <div class="fleet-card reveal" style="background: rgba(255,107,0,0.04); border: 1px dashed rgba(255,107,0,0.2);">
+      <div class="fleet-card-line"></div>
+      <div class="fleet-tag" style="opacity: 0.5;">Coming Soon</div>
+      <div class="fleet-icon-wrap" style="color: rgba(255,255,255,0.1);">⚙️</div>
+      <div class="fleet-name" style="color: rgba(255,255,255,0.3);">Hydraulic Breaker</div>
+      <div class="fleet-spec" style="opacity: 0.3;">Expansion unit · Demo capability · Fully equipped</div>
+      <div class="fleet-price">
+        <div class="fleet-price-amount" style="color: rgba(255,107,0,0.3);">TBA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMERA SYSTEM -->
+<section id="cameras">
+  <div class="section-label">Vision System</div>
+  <h2 class="section-title reveal">MULTI-ANGLE<br>CAMERA HUB</h2>
+
+  <div class="camera-layout">
+    <!-- Live cam mockup -->
+    <div class="camera-mockup reveal" id="camMockup">
+
+      <!-- FRONT VIEW -->
+      <div class="cam-scene cam-view active" id="view-front">
+        <svg width="100%" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <rect width="800" height="450" fill="#0a0a0a"/>
+          <rect y="330" width="800" height="120" fill="#1a1a0a"/>
+          <ellipse cx="600" cy="335" rx="120" ry="35" fill="#2a1a08"/>
+          <ellipse cx="400" cy="340" rx="80" ry="20" fill="#1f1508"/>
+          <!-- Excavator front-on: big, centered, cab facing viewer -->
+          <rect x="270" y="260" width="260" height="90" rx="6" fill="#CC5500"/>
+          <!-- cab front glass -->
+          <rect x="310" y="230" width="130" height="70" rx="5" fill="#FF6B00"/>
+          <rect x="320" y="238" width="110" height="52" rx="3" fill="rgba(0,200,255,0.18)" stroke="rgba(0,200,255,0.4)" stroke-width="1"/>
+          <!-- front lights -->
+          <circle cx="330" cy="318" r="10" fill="#FFD000" opacity="0.8"/>
+          <circle cx="470" cy="318" r="10" fill="#FFD000" opacity="0.8"/>
+          <!-- bucket arm coming toward viewer -->
+          <rect x="370" y="130" width="60" height="140" rx="10" fill="#AA4400" transform="rotate(5 370 130)"/>
+          <path d="M355 265 L445 255 L455 295 L340 300 Z" fill="#2a2a2a" stroke="#444" stroke-width="2"/>
+          <!-- tracks front -->
+          <rect x="230" y="330" width="340" height="50" rx="25" fill="#1a1a1a"/>
+          <circle cx="260" cy="355" r="22" fill="#222" stroke="#333" stroke-width="2"/>
+          <circle cx="540" cy="355" r="22" fill="#222" stroke="#333" stroke-width="2"/>
+          <circle cx="400" cy="355" r="16" fill="#222" stroke="#333" stroke-width="2"/>
+          <!-- dust -->
+          <circle cx="400" cy="310" r="4" fill="rgba(200,150,80,0.3)">
+            <animate attributeName="r" values="4;12;4" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Hydraulic cylinders front detail -->
+          <line x1="380" y1="200" x2="395" y2="260" stroke="#888" stroke-width="5" stroke-linecap="round"/>
+          <line x1="420" y1="195" x2="410" y2="255" stroke="#888" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- LEFT VIEW -->
+      <div class="cam-scene cam-view" id="view-left">
+        <svg width="100%" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <rect width="800" height="450" fill="#080808"/>
+          <rect y="330" width="800" height="120" fill="#161610"/>
+          <ellipse cx="200" cy="338" rx="100" ry="25" fill="#1a1208"/>
+          <!-- Excavator left profile -->
+          <!-- body -->
+          <rect x="100" y="265" width="480" height="80" rx="6" fill="#CC5500"/>
+          <!-- cab left side -->
+          <rect x="340" y="215" width="160" height="70" rx="5" fill="#FF6B00"/>
+          <rect x="355" y="223" width="130" height="54" rx="3" fill="rgba(0,200,255,0.15)" stroke="rgba(0,200,255,0.35)" stroke-width="1"/>
+          <!-- cab door detail -->
+          <line x1="420" y1="223" x2="420" y2="277" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- counterweight left -->
+          <rect x="80" y="275" width="50" height="60" rx="4" fill="#993300"/>
+          <!-- boom arm - side profile -->
+          <rect x="460" y="110" width="22" height="180" rx="8" fill="#CC5500" transform="rotate(-35 460 110)"/>
+          <!-- stick -->
+          <rect x="545" y="140" width="14" height="140" rx="6" fill="#FF6B00" transform="rotate(20 545 140)"/>
+          <!-- bucket side profile -->
+          <path d="M 590 280 L 640 265 L 660 305 L 605 320 Z" fill="#2a2a2a" stroke="#555" stroke-width="2"/>
+          <!-- hydraulic lines -->
+          <rect x="470" y="175" width="8" height="70" rx="4" fill="#777" transform="rotate(-30 470 175)"/>
+          <rect x="540" y="190" width="6" height="55" rx="3" fill="#777" transform="rotate(15 540 190)"/>
+          <!-- tracks side view - left side -->
+          <rect x="80" y="325" width="520" height="55" rx="28" fill="#1a1a1a"/>
+          <circle cx="120" cy="352" r="26" fill="#222" stroke="#333" stroke-width="2"/>
+          <circle cx="560" cy="352" r="26" fill="#222" stroke="#333" stroke-width="2"/>
+          <circle cx="240" cy="352" r="16" fill="#222"/>
+          <circle cx="340" cy="352" r="16" fill="#222"/>
+          <circle cx="440" cy="352" r="16" fill="#222"/>
+          <!-- track tread marks -->
+          <rect x="85" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="115" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="145" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="175" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="205" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="235" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="265" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="295" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="325" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="355" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="385" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="415" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="445" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="475" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="505" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="535" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <!-- dust left side -->
+          <circle cx="650" cy="310" r="3" fill="rgba(200,150,80,0.35)">
+            <animate attributeName="cy" values="310;285;310" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0;0.35" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+
+      <!-- RIGHT VIEW -->
+      <div class="cam-scene cam-view" id="view-right">
+        <svg width="100%" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <rect width="800" height="450" fill="#080805"/>
+          <rect y="330" width="800" height="120" fill="#141410"/>
+          <ellipse cx="600" cy="338" rx="100" ry="25" fill="#1a1208"/>
+          <!-- Excavator right profile (mirrored) -->
+          <!-- body -->
+          <rect x="220" y="265" width="480" height="80" rx="6" fill="#CC5500"/>
+          <!-- cab right side -->
+          <rect x="300" y="215" width="160" height="70" rx="5" fill="#FF6B00"/>
+          <rect x="315" y="223" width="130" height="54" rx="3" fill="rgba(0,200,255,0.15)" stroke="rgba(0,200,255,0.35)" stroke-width="1"/>
+          <line x1="380" y1="223" x2="380" y2="277" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- counterweight right -->
+          <rect x="670" y="275" width="50" height="60" rx="4" fill="#993300"/>
+          <!-- boom arm right profile -->
+          <rect x="240" y="110" width="22" height="180" rx="8" fill="#CC5500" transform="rotate(35 240 110)"/>
+          <rect x="155" y="140" width="14" height="140" rx="6" fill="#FF6B00" transform="rotate(-20 155 140)"/>
+          <!-- bucket right side -->
+          <path d="M 140 280 L 90 265 L 70 305 L 130 320 Z" fill="#2a2a2a" stroke="#555" stroke-width="2"/>
+          <!-- hydraulic lines -->
+          <rect x="238" y="175" width="8" height="70" rx="4" fill="#777" transform="rotate(30 238 175)"/>
+          <rect x="168" y="190" width="6" height="55" rx="3" fill="#777" transform="rotate(-15 168 190)"/>
+          <!-- tracks right side -->
+          <rect x="200" y="325" width="520" height="55" rx="28" fill="#1a1a1a"/>
+          <circle cx="240" cy="352" r="26" fill="#222" stroke="#333" stroke-width="2"/>
+          <circle cx="680" cy="352" r="26" fill="#222" stroke="#333" stroke-width="2"/>
+          <circle cx="360" cy="352" r="16" fill="#222"/>
+          <circle cx="460" cy="352" r="16" fill="#222"/>
+          <circle cx="560" cy="352" r="16" fill="#222"/>
+          <!-- track tread right -->
+          <rect x="205" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="235" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="265" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="295" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="325" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="355" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="385" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="415" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="445" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="475" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="505" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="535" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="565" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="595" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="625" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <rect x="655" y="325" width="8" height="55" rx="2" fill="#333" opacity="0.5"/>
+          <!-- dust right side -->
+          <circle cx="120" cy="310" r="3" fill="rgba(200,150,80,0.35)">
+            <animate attributeName="cy" values="310;285;310" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.35;0;0.35" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+
+      <div class="cam-hud">
+        <div class="cam-top">
+          <div class="cam-label" id="camViewLabel"><div class="rec-dot"></div> REC · CAM 01 — FRONT VIEW</div>
+          <div class="cam-label">1080p · 60fps</div>
+        </div>
+        <div class="cam-crosshair"></div>
+        <div class="cam-bottom">
+          <div class="cam-selector">
+            <div class="cam-btn active" data-view="front" data-label="CAM 01 — FRONT VIEW">Front</div>
+            <div class="cam-btn" data-view="left" data-label="CAM 02 — LEFT SIDE">Left</div>
+            <div class="cam-btn" data-view="right" data-label="CAM 03 — RIGHT SIDE">Right</div>
+          </div>
+          <div class="cam-timer">⏱ 42:17</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="camera-features reveal">
+      <div class="cam-feature">
+        <div class="cam-feature-icon">📷</div>
+        <div>
+          <div class="cam-feature-title">3 Onboard Views Per Machine</div>
+          <div class="cam-feature-desc">Front, Left, and Right camera angles — switchable instantly from the operator dashboard. Each machine carries Raspberry Pi HQ or Camera V2 modules.</div>
+        </div>
+      </div>
+      <div class="cam-feature">
+        <div class="cam-feature-icon">🎥</div>
+        <div>
+          <div class="cam-feature-title">Wide-Angle Arena Feed</div>
+          <div class="cam-feature-desc">A dedicated overhead wide-angle camera covers the entire job site arena, streaming every live session directly to YouTube or Twitch 24/7.</div>
+        </div>
+      </div>
+      <div class="cam-feature">
+        <div class="cam-feature-icon">🔴</div>
+        <div>
+          <div class="cam-feature-title">Auto-Publish to YouTube & Twitch</div>
+          <div class="cam-feature-desc">Sessions go live automatically. Spectators worldwide can watch in real time — turning your arena into a global entertainment channel.</div>
+        </div>
+      </div>
+      <div class="cam-feature">
+        <div class="cam-feature-icon">⚡</div>
+        <div>
+          <div class="cam-feature-title">Powered by Raspberry Pi 5</div>
+          <div class="cam-feature-desc">5× Raspberry Pi 5 boards (4GB RAM each) handle onboard compute, camera management, control signal processing, and stream encoding in parallel.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">Sessions</div>
+  <h2 class="section-title reveal">PICK YOUR<br>SESSION</h2>
+
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-tier">Starter</div>
+      <div class="price-amount">$15</div>
+      <div class="price-duration">30 Minutes</div>
+      <ul class="price-features">
+        <li>Any machine of your choice</li>
+        <li>3 camera angles</li>
+        <li>Session recorded</li>
+        <li>Basic control interface</li>
+      </ul>
+      <a href="#" class="price-cta">Book Now</a>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-featured-tag">Popular</div>
+      <div class="price-tier">Standard</div>
+      <div class="price-amount">$30</div>
+      <div class="price-duration">1 Hour</div>
+      <ul class="price-features">
+        <li>Any machine of your choice</li>
+        <li>3 camera angles</li>
+        <li>Session recorded + download</li>
+        <li>Live Twitch / YouTube stream</li>
+        <li>Priority queue booking</li>
+      </ul>
+      <a href="#" class="price-cta">Book 1 Hour</a>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-tier">Extended</div>
+      <div class="price-amount">$55</div>
+      <div class="price-duration">2 Hours</div>
+      <ul class="price-features">
+        <li>Any machine of your choice</li>
+        <li>3 camera angles</li>
+        <li>Session recorded + download</li>
+        <li>Live Twitch / YouTube stream</li>
+        <li>Priority queue booking</li>
+        <li>Switch machines mid-session</li>
+      </ul>
+      <a href="#" class="price-cta">Book 2 Hours</a>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE STREAM -->
+<section id="livestream">
+  <div class="section-label">Broadcasting</div>
+  <h2 class="section-title reveal">BUILT TO<br>GO VIRAL</h2>
+
+  <div class="stream-layout">
+    <div class="stream-visual reveal">
+      <div class="stream-overlay"></div>
+      <div class="stream-scene">
+        <svg class="stream-scene-inner" width="100%" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <rect width="800" height="450" fill="#080808"/>
+          <!-- Wide angle view of full arena -->
+          <rect y="300" width="800" height="150" fill="#121208"/>
+          <!-- Multiple machines in arena -->
+          <rect x="50" y="240" width="90" height="65" rx="4" fill="#CC4400" opacity="0.9"/>
+          <rect x="55" y="220" width="60" height="35" rx="3" fill="#FF5500"/>
+          <rect x="90" y="225" width="8" height="50" rx="2" fill="#992200" transform="rotate(-30 90 225)"/>
+          <rect x="130" y="215" width="6" height="45" rx="2" fill="#FF6B00" transform="rotate(20 130 215)"/>
+          <rect x="60" y="295" width="100" height="30" rx="15" fill="#1a1a1a"/>
+
+          <rect x="320" y="230" width="170" height="70" rx="4" fill="#666"/>
+          <rect x="320" y="210" width="65" height="38" rx="3" fill="#555"/>
+          <rect x="385" y="215" width="105" height="85" rx="3" fill="#5a5a5a"/>
+          <circle cx="355" cy="305" r="16" fill="#222"/>
+          <circle cx="460" cy="305" r="16" fill="#222"/>
+
+          <rect x="580" y="240" width="90" height="60" rx="4" fill="#CC5500" opacity="0.8"/>
+          <rect x="590" y="220" width="60" height="35" rx="3" fill="#FF6B00"/>
+          <rect x="60" y="300" width="680" height="5" fill="rgba(255,107,0,0.05)"/>
+
+          <!-- Overhead camera indicator -->
+          <circle cx="400" cy="40" r="12" fill="none" stroke="var(--orange)" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="400" cy="40" r="4" fill="red">
+            <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/>
+          </circle>
+          <line x1="400" y1="52" x2="400" y2="80" stroke="rgba(255,107,0,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
+
+          <!-- Grid overlay -->
+          <line x1="267" y1="0" x2="267" y2="450" stroke="rgba(255,107,0,0.05)" stroke-width="1"/>
+          <line x1="534" y1="0" x2="534" y2="450" stroke="rgba(255,107,0,0.05)" stroke-width="1"/>
+          <line x1="0" y1="150" x2="800" y2="150" stroke="rgba(255,107,0,0.05)" stroke-width="1"/>
+          <line x1="0" y1="300" x2="800" y2="300" stroke="rgba(255,107,0,0.05)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="stream-hud-top">
+        <div class="live-badge"><div class="rec-dot"></div> LIVE</div>
+        <div class="viewer-count">👁 2,847 watching</div>
+      </div>
+      <div class="stream-hud-bottom">
+        <div class="platform-badge">▶ YouTube</div>
+        <div class="platform-badge" style="border-color: rgba(145,70,255,0.3);">🟣 Twitch</div>
+        <div class="platform-badge" style="margin-left: auto; color: var(--orange); border-color: rgba(255,107,0,0.3);">🌐 ARENA CAM</div>
+      </div>
+    </div>
+
+    <div class="stream-info reveal">
+      <div class="stream-feature">
+        <div class="stream-feature-num">01</div>
+        <div>
+          <div class="stream-feature-title">Passive Revenue Through Views</div>
+          <div class="stream-feature-desc">Every live session generates watch time, ad revenue, and sponsorship potential on YouTube and Twitch — creating a second income stream beyond session bookings.</div>
+        </div>
+      </div>
+      <div class="stream-feature">
+        <div class="stream-feature-num">02</div>
+        <div>
+          <div class="stream-feature-title">Viral-Ready Content Machine</div>
+          <div class="stream-feature-desc">Watching someone operate real machinery remotely is inherently fascinating content. Clips are naturally shareable across TikTok, Reels, and YouTube Shorts.</div>
+        </div>
+      </div>
+      <div class="stream-feature">
+        <div class="stream-feature-num">03</div>
+        <div>
+          <div class="stream-feature-title">Community Builds Itself</div>
+          <div class="stream-feature-desc">Live chat, leaderboards, and session highlights grow a dedicated community. Viewers become customers. Customers become advocates.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="tech">
+  <div class="section-label">Infrastructure</div>
+  <h2 class="section-title reveal">TECH<br>STACK</h2>
+
+  <div class="tech-row">
+    <div class="tech-item reveal">
+      <span class="tech-item-icon">🖥️</span>
+      <div class="tech-item-name">Raspberry Pi 5</div>
+      <div class="tech-item-desc">5× units · 4GB RAM · Onboard compute per machine cluster</div>
+    </div>
+    <div class="tech-item reveal">
+      <span class="tech-item-icon">📡</span>
+      <div class="tech-item-name">HQ + V2 Cameras</div>
+      <div class="tech-item-desc">5× HQ + 15× V2 modules · Multi-angle coverage per machine</div>
+    </div>
+    <div class="tech-item reveal">
+      <span class="tech-item-icon">🔋</span>
+      <div class="tech-item-name">APC UPS 2200VA</div>
+      <div class="tech-item-desc">1200W uninterruptible power · 9Ah · Zero downtime guarantee</div>
+    </div>
+    <div class="tech-item reveal">
+      <span class="tech-item-icon">💻</span>
+      <div class="tech-item-name">RTX 5070 Workstation</div>
+      <div class="tech-item-desc">Acer Nitro · Ryzen 7 · 32GB DDR5 · AI stream processing</div>
+    </div>
+    <div class="tech-item reveal">
+      <span class="tech-item-icon">🌐</span>
+      <div class="tech-item-name">Global Web Platform</div>
+      <div class="tech-item-desc">Booking system · Payment gateway · Real-time control latency &lt;50ms</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTMENT -->
+<section id="investment">
+  <div class="section-label">Budget Breakdown</div>
+  <h2 class="section-title reveal">THE<br>NUMBERS</h2>
+
+  <div class="invest-grid">
+    <div class="invest-table reveal">
+      <div class="invest-row">
+        <span class="invest-item-name">JDM-208 Excavator R920</span>
+        <span class="invest-item-price">$1,500</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">VOLVO EC160E Excavator</span>
+        <span class="invest-item-price">$1,860</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">Kabolite K3362 Dump Truck</span>
+        <span class="invest-item-price">$1,100</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">6×6 Hydraulic Dump Truck</span>
+        <span class="invest-item-price">$1,250</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">Kabolite K966 Loader</span>
+        <span class="invest-item-price">$1,160</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">Raspberry Pi 5 × 5</span>
+        <span class="invest-item-price">$300</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">RPi HQ Cameras × 5</span>
+        <span class="invest-item-price">$250</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">RPi Camera V2 × 15</span>
+        <span class="invest-item-price">$225</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">Acer Nitro RTX 5070 PC</span>
+        <span class="invest-item-price">$1,400</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">Philips 22" Monitors × 2</span>
+        <span class="invest-item-price">$140</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">Insta360 X5 (Arena Cam)</span>
+        <span class="invest-item-price">$685</span>
+      </div>
+      <div class="invest-row">
+        <span class="invest-item-name">APC Easy UPS 2200VA</span>
+        <span class="invest-item-price">$270</span>
+      </div>
+      <div class="invest-row total">
+        <span class="invest-item-name">Total Initial Investment</span>
+        <span class="invest-item-price">$10,140</span>
+      </div>
+    </div>
+
+    <div class="invest-projections reveal">
+      <h3 style="font-family: 'Barlow Condensed'; font-size: 1rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px;">Revenue Projections</h3>
+      <div class="projection-card">
+        <div class="projection-label">Daily Revenue Potential</div>
+        <div class="projection-value">$360+</div>
+        <div class="projection-note">12 hrs × $30/hr × avg machine utilization</div>
+      </div>
+      <div class="projection-card">
+        <div class="projection-label">Monthly Revenue Target</div>
+        <div class="projection-value">$8,000+</div>
+        <div class="projection-note">Sessions + streaming ad revenue</div>
+      </div>
+      <div class="projection-card">
+        <div class="projection-label">Estimated Break-Even</div>
+        <div class="projection-value">~45 Days</div>
+        <div class="projection-note">Based on 60% fleet utilization rate</div>
+      </div>
+      <div style="padding: 20px; background: rgba(255,107,0,0.06); border: 1px solid rgba(255,107,0,0.15); border-radius: 2px;">
+        <div style="font-family: 'Barlow Condensed'; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px;">Upside Potential</div>
+        <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7;">Streaming revenue, brand sponsorships, gifting during live sessions, tournaments, and fleet expansion multiply income with zero additional infrastructure cost.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-bg-text">DIG</div>
+  <h2 class="cta-title">READY TO<br>BUILD?</h2>
+  <p class="cta-sub">The machines are real. The opportunity is now.</p>
+  <a href="#" class="cta-btn">Start Your RC World</a>
+</section>
+
+<footer>
+  <div class="footer-logo">RC<span>WORLD</span></div>
+  <div class="footer-copy">© 2025 RC World — Remote Machinery Experience Platform</div>
+  <div class="footer-copy" style="color: var(--orange);">rcworld.io</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .fleet-card, .step, .tech-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      ring.style.width = '40px';
+      ring.style.height = '40px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80 * (Array.from(entry.target.parentNode.children).indexOf(entry.target)));
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Camera button switcher — changes SVG scene + label
+  document.querySelectorAll('.cam-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.dataset.view;
+      const label = btn.dataset.label;
+
+      // Switch active button
+      document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Switch visible scene
+      document.querySelectorAll('.cam-view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + view).classList.add('active');
+
+      // Update label text (keep the rec dot)
+      const labelEl = document.getElementById('camViewLabel');
+      labelEl.innerHTML = '<div class="rec-dot" style="width:8px;height:8px;background:red;border-radius:50%;animation:recBlink 1s ease-in-out infinite;display:inline-block;"></div> REC · ' + label;
+    });
+  });
+
+  // Nav shrink
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.padding = window.scrollY > 80 ? '12px 8vw' : '20px 8vw';
+  });
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
