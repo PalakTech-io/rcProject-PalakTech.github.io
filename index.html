@@ -1693,7 +1693,6 @@
     <li><a href="#concept">Concept</a></li>
     <li><a href="#fleet">Fleet</a></li>
     <li><a href="#cameras">Cameras</a></li>
-    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#viral">Social</a></li>
     <li><a href="#investment">Investment</a></li>
     <li><a href="#cta" class="nav-cta">Get Started</a></li>
@@ -1809,7 +1808,7 @@
           <div style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></div>
           <div style="width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></div>
           <div style="width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></div>
-          <div style="flex: 1; background: #222; border-radius: 4px; padding: 4px 12px; margin-left: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; color: #555; letter-spacing: 0.1em;">rcworld.io/book</div>
+          <div style="flex: 1; background: #222; border-radius: 4px; padding: 4px 12px; margin-left: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; color: #555; letter-spacing: 0.1em;">rcworld.tech/book</div>
         </div>
         <!-- App content -->
         <div style="padding: 24px;" id="bookingWidget">
@@ -2027,7 +2026,7 @@
           <div style="width:9px;height:9px;border-radius:50%;background:#ff5f57;"></div>
           <div style="width:9px;height:9px;border-radius:50%;background:#febc2e;"></div>
           <div style="width:9px;height:9px;border-radius:50%;background:#28c840;"></div>
-          <div style="flex:1;background:#1e1e1e;border-radius:3px;padding:4px 12px;margin-left:8px;font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;color:#444;letter-spacing:0.1em;">rcworld.io/login</div>
+          <div style="flex:1;background:#1e1e1e;border-radius:3px;padding:4px 12px;margin-left:8px;font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;color:#444;letter-spacing:0.1em;">rcworld.tech/login</div>
         </div>
 
         <!-- Content -->
@@ -2361,33 +2360,7 @@
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing">
-  <div class="section-label">Sessions</div>
-  <h2 class="section-title reveal">PICK YOUR<br>SESSION</h2>
 
-  <div class="pricing-grid">
-    <div class="price-card reveal">
-      <div class="price-tier">Starter</div>
-      <div class="price-amount">$15</div>
-      <div class="price-duration">30 Minutes</div>
-      <a href="#" class="price-cta">Book Now</a>
-    </div>
-    <div class="price-card featured reveal">
-      <div class="price-featured-tag">Popular</div>
-      <div class="price-tier">Standard</div>
-      <div class="price-amount">$30</div>
-      <div class="price-duration">1 Hour</div>
-      <a href="#" class="price-cta">Book 1 Hour</a>
-    </div>
-    <div class="price-card reveal">
-      <div class="price-tier">Extended</div>
-      <div class="price-amount">$55</div>
-      <div class="price-duration">2 Hours</div>
-      <a href="#" class="price-cta">Book 2 Hours</a>
-    </div>
-  </div>
-</section>
 
 <!-- LIVE STREAM -->
 <section id="livestream">
@@ -2760,8 +2733,103 @@
 <footer>
   <div class="footer-logo">RC<span>WORLD</span></div>
   <div class="footer-copy">© 2025 RC World — Remote Machinery Experience Platform</div>
-  <div class="footer-copy" style="color: var(--orange);">rcworld.io</div>
+  <div class="footer-copy" style="color: var(--orange);">rcworld.tech</div>
 </footer>
+
+<!-- ===== MACHINE SELECTOR OVERLAY ===== -->
+<div id="machineSelectorOverlay" style="display:none; position:fixed; inset:0; z-index:10001; background:rgba(0,0,0,0.95); align-items:center; justify-content:center; flex-direction:column;">
+  <!-- Close -->
+  <button onclick="closeMachineSelector()" style="position:absolute;top:24px;right:32px;background:none;border:none;color:#555;font-size:1.6rem;cursor:pointer;line-height:1;" onmouseenter="this.style.color='#FF6B00'" onmouseleave="this.style.color='#555'">✕</button>
+
+  <!-- Header -->
+  <div style="text-align:center;margin-bottom:60px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.35em;color:#FF6B00;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;">
+      <span style="display:block;width:30px;height:1px;background:#FF6B00;"></span>
+      Select Your Machine
+      <span style="display:block;width:30px;height:1px;background:#FF6B00;"></span>
+    </div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,5rem);line-height:0.95;letter-spacing:-0.01em;color:#fff;">CHOOSE YOUR<br><span style="color:#FF6B00;">MACHINE</span></h2>
+  </div>
+
+  <!-- Cards -->
+  <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;padding:0 24px;">
+
+    <!-- Excavator Card -->
+    <div onclick="selectMachine('excavator')" style="cursor:pointer;background:#0f0f0f;border:1px solid rgba(255,107,0,0.2);width:320px;padding:36px 28px 28px;position:relative;overflow:hidden;transition:all 0.3s;"
+      onmouseenter="this.style.borderColor='#FF6B00';this.style.transform='translateY(-6px)';this.querySelector('.card-glow').style.opacity='1'"
+      onmouseleave="this.style.borderColor='rgba(255,107,0,0.2)';this.style.transform='translateY(0)';this.querySelector('.card-glow').style.opacity='0'">
+      <div class="card-glow" style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,0,0.08) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;"></div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B00;background:rgba(255,107,0,0.1);display:inline-block;padding:4px 10px;margin-bottom:20px;">RC Machine</div>
+      <!-- Mini Excavator SVG -->
+      <div style="margin:0 auto 20px;height:100px;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 200 120" width="180" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="112" rx="70" ry="6" fill="rgba(255,107,0,0.08)"/>
+          <rect x="20" y="80" width="160" height="28" rx="14" fill="#1a1a1a"/>
+          <rect x="30" y="84" width="140" height="20" rx="10" fill="#222"/>
+          <circle cx="40" cy="94" r="12" fill="#333" stroke="#444" stroke-width="1.5"/>
+          <circle cx="160" cy="94" r="12" fill="#333" stroke="#444" stroke-width="1.5"/>
+          <circle cx="100" cy="94" r="9" fill="#333" stroke="#444" stroke-width="1.5"/>
+          <rect x="30" y="44" width="120" height="44" rx="5" fill="#CC5500"/>
+          <rect x="36" y="50" width="108" height="34" rx="3" fill="#FF6B00"/>
+          <rect x="52" y="20" width="70" height="34" rx="5" fill="#FF6B00"/>
+          <rect x="58" y="25" width="58" height="25" rx="3" fill="rgba(0,200,255,0.15)" stroke="rgba(0,200,255,0.4)" stroke-width="1"/>
+          <rect x="20" y="50" width="18" height="32" rx="3" fill="#AA4400"/>
+          <rect x="130" y="16" width="10" height="64" rx="5" fill="#CC5500" transform="rotate(-28 130 16)"/>
+          <rect x="167" y="8" width="8" height="52" rx="4" fill="#FF6B00" transform="rotate(18 167 8)"/>
+          <path d="M185 58 L200 54 L205 68 L188 74 L174 70Z" fill="#333" stroke="#555" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;color:#fff;">Excavator</div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:24px;">Dig, scoop, and dump with a hydraulic arm. Control the boom, stick & bucket from any angle.</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:0.7rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.1em;color:rgba(255,107,0,0.7);text-transform:uppercase;">⛏ Bucket · Arm · Tracks</span>
+      </div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:#FF6B00;transform:scaleX(0);transform-origin:left;transition:transform 0.4s;" class="card-line"></div>
+    </div>
+
+    <!-- Dump Truck Card -->
+    <div onclick="selectMachine('dumptruck')" style="cursor:pointer;background:#0f0f0f;border:1px solid rgba(255,107,0,0.2);width:320px;padding:36px 28px 28px;position:relative;overflow:hidden;transition:all 0.3s;"
+      onmouseenter="this.style.borderColor='#FF6B00';this.style.transform='translateY(-6px)';this.querySelector('.card-glow').style.opacity='1'"
+      onmouseleave="this.style.borderColor='rgba(255,107,0,0.2)';this.style.transform='translateY(0)';this.querySelector('.card-glow').style.opacity='0'">
+      <div class="card-glow" style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,0,0.08) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;"></div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#FF6B00;background:rgba(255,107,0,0.1);display:inline-block;padding:4px 10px;margin-bottom:20px;">RC Machine</div>
+      <!-- Mini Dump Truck SVG -->
+      <div style="margin:0 auto 20px;height:100px;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 220 120" width="200" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="110" cy="112" rx="80" ry="6" fill="rgba(255,107,0,0.08)"/>
+          <!-- Chassis -->
+          <rect x="10" y="72" width="200" height="18" rx="4" fill="#AA4400"/>
+          <!-- Cab -->
+          <rect x="10" y="36" width="70" height="42" rx="5" fill="#CC5500"/>
+          <rect x="16" y="40" width="58" height="32" rx="3" fill="#FF6B00"/>
+          <rect x="20" y="44" width="50" height="24" rx="2" fill="rgba(0,200,255,0.15)" stroke="rgba(0,200,255,0.4)" stroke-width="1"/>
+          <!-- Bed (slightly tilted to show dump action) -->
+          <polygon points="80,70 210,70 200,36 80,36" fill="#CC5500"/>
+          <polygon points="82,68 208,68 198,38 82,38" fill="#FF6B00"/>
+          <!-- Bed rails -->
+          <rect x="80" y="34" width="4" height="36" fill="#AA4400"/>
+          <rect x="206" y="34" width="4" height="36" fill="#AA4400"/>
+          <!-- Wheels -->
+          <circle cx="40" cy="92" r="16" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+          <circle cx="40" cy="92" r="8" fill="#333"/>
+          <circle cx="120" cy="92" r="16" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+          <circle cx="120" cy="92" r="8" fill="#333"/>
+          <circle cx="175" cy="92" r="16" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+          <circle cx="175" cy="92" r="8" fill="#333"/>
+          <!-- Exhaust pipe -->
+          <rect x="70" y="28" width="5" height="16" rx="2" fill="#666"/>
+        </svg>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;color:#fff;">Dump Truck</div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:24px;">Haul and dump loads across the arena. Raise the bed to unload and feel the raw power of a 6×6 hauler.</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:0.7rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.1em;color:rgba(255,107,0,0.7);text-transform:uppercase;">🚛 Bed · Drive · Turn</span>
+      </div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:#FF6B00;transform:scaleX(0);transform-origin:left;transition:transform 0.4s;" class="card-line"></div>
+    </div>
+
+  </div>
+</div>
 
 <!-- ===== DEMO MODAL ===== -->
 <div id="demoModal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.92); align-items:center; justify-content:center;">
@@ -2770,9 +2838,12 @@
     <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid rgba(255,107,0,0.2); background:#111;">
       <div style="display:flex; align-items:center; gap:10px;">
         <div style="width:8px;height:8px;background:red;border-radius:50%;animation:recBlink 1s ease-in-out infinite;"></div>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:rgba(255,255,255,0.6);text-transform:uppercase;">RC WORLD · LIVE DEMO · DUMP TRUCK</span>
+        <span id="demoModalTitle" style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:rgba(255,255,255,0.6);text-transform:uppercase;">RC WORLD · LIVE DEMO · EXCAVATOR</span>
       </div>
-      <button onclick="closeDemo()" style="background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;line-height:1;padding:4px 8px;" onmouseenter="this.style.color='#FF6B00'" onmouseleave="this.style.color='#888'">✕</button>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button onclick="backToSelector()" style="background:none;border:1px solid rgba(255,107,0,0.3);color:rgba(255,107,0,0.7);font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:5px 12px;cursor:pointer;" onmouseenter="this.style.borderColor='#FF6B00';this.style.color='#FF6B00'" onmouseleave="this.style.borderColor='rgba(255,107,0,0.3)';this.style.color='rgba(255,107,0,0.7)'">← Change</button>
+        <button onclick="closeDemo()" style="background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;line-height:1;padding:4px 8px;" onmouseenter="this.style.color='#FF6B00'" onmouseleave="this.style.color='#888'">✕</button>
+      </div>
     </div>
 
     <!-- Game Canvas Area -->
@@ -2780,14 +2851,16 @@
       <canvas id="demoCanvas" width="900" height="480" style="display:block; width:100%; image-rendering:pixelated;"></canvas>
       <!-- Camera Overlay Buttons -->
       <div id="camOverlay" style="position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10;">
-        <button class="demo-cam-btn active" data-cam="top" onclick="setCamera('top',this)">1 · TEPE</button>
-        <button class="demo-cam-btn" data-cam="right" onclick="setCamera('right',this)">2 · SAĞ</button>
-        <button class="demo-cam-btn" data-cam="left" onclick="setCamera('left',this)">3 · SOL</button>
+        <button class="demo-cam-btn active" data-cam="top" onclick="setCamera('top',this)">1 · TOP</button>
+        <button class="demo-cam-btn" data-cam="right" onclick="setCamera('right',this)">2 · RIGHT</button>
+        <button class="demo-cam-btn" data-cam="left" onclick="setCamera('left',this)">3 · LEFT</button>
       </div>
       <!-- Camera Label -->
-      <div id="camLabel" style="position:absolute;top:12px;left:12px;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:rgba(255,107,0,0.8);text-transform:uppercase;background:rgba(0,0,0,0.5);padding:4px 10px;border:1px solid rgba(255,107,0,0.2);">📷 TEPE KAMERASI</div>
+      <div id="camLabel" style="position:absolute;top:12px;left:12px;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:rgba(255,107,0,0.8);text-transform:uppercase;background:rgba(0,0,0,0.5);padding:4px 10px;border:1px solid rgba(255,107,0,0.2);">📷 TOP CAMERA</div>
       <!-- Damper status -->
-      <div id="damperLabel" style="position:absolute;top:12px;right:12px;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:rgba(0,0,0,0.5);padding:4px 10px;border:1px solid rgba(255,255,255,0.1);">DAMPER: KAPALI</div>
+      <div id="damperLabel" style="position:absolute;top:12px;right:12px;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:rgba(0,0,0,0.5);padding:4px 10px;border:1px solid rgba(255,255,255,0.1);">BUCKET: CLOSED</div>
+      <!-- Machine type badge -->
+      <div id="machineTypeBadge" style="position:absolute;top:44px;right:12px;font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:rgba(255,107,0,0.7);text-transform:uppercase;background:rgba(0,0,0,0.5);padding:4px 10px;border:1px solid rgba(255,107,0,0.2);">⛏ EXCAVATOR</div>
     </div>
 
     <!-- Controls Panel -->
@@ -2795,7 +2868,7 @@
 
       <!-- D-Pad: touch + keyboard -->
       <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:#555;text-transform:uppercase;margin-bottom:4px;">HAREKET</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:#555;text-transform:uppercase;margin-bottom:4px;">MOVE</div>
         <div style="display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;">
           <div></div>
           <div id="k-up" class="demo-key touch-btn"
@@ -2816,19 +2889,19 @@
 
       <!-- Damper buttons -->
       <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:#555;text-transform:uppercase;margin-bottom:4px;">DAMPER</div>
+        <div id="damperControlLabel" style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:#555;text-transform:uppercase;margin-bottom:4px;">BUCKET</div>
         <button class="demo-action-btn touch-btn" style="padding:14px 20px;font-size:0.85rem;"
-          ontouchstart="triggerDamper('up')" onmousedown="triggerDamper('up')">▲ KALDIR</button>
+          ontouchstart="triggerDamper('up')" onmousedown="triggerDamper('up')">▲ RAISE <span style="font-size:0.65rem;opacity:0.55;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.1em;">(W)</span></button>
         <button class="demo-action-btn touch-btn" style="padding:14px 20px;font-size:0.85rem;"
-          ontouchstart="triggerDamper('down')" onmousedown="triggerDamper('down')">▼ İNDİR</button>
+          ontouchstart="triggerDamper('down')" onmousedown="triggerDamper('down')">▼ LOWER <span style="font-size:0.65rem;opacity:0.55;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.1em;">(S)</span></button>
       </div>
 
       <!-- Camera buttons -->
       <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:#555;text-transform:uppercase;margin-bottom:4px;">KAMERA</div>
-        <button class="demo-cam-btn-sm touch-btn" style="width:52px;height:52px;font-size:1rem;" onclick="setCamera('top',null)">1<br><span style="font-size:0.5rem;opacity:0.6;">TEPE</span></button>
-        <button class="demo-cam-btn-sm touch-btn" style="width:52px;height:52px;font-size:1rem;" onclick="setCamera('right',null)">2<br><span style="font-size:0.5rem;opacity:0.6;">SAĞ</span></button>
-        <button class="demo-cam-btn-sm touch-btn" style="width:52px;height:52px;font-size:1rem;" onclick="setCamera('left',null)">3<br><span style="font-size:0.5rem;opacity:0.6;">SOL</span></button>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:#555;text-transform:uppercase;margin-bottom:4px;">CAMERA</div>
+        <button class="demo-cam-btn-sm touch-btn" style="width:52px;height:52px;font-size:1rem;" onclick="setCamera('top',null)">1<br><span style="font-size:0.5rem;opacity:0.6;">TOP</span></button>
+        <button class="demo-cam-btn-sm touch-btn" style="width:52px;height:52px;font-size:1rem;" onclick="setCamera('right',null)">2<br><span style="font-size:0.5rem;opacity:0.6;">RIGHT</span></button>
+        <button class="demo-cam-btn-sm touch-btn" style="width:52px;height:52px;font-size:1rem;" onclick="setCamera('left',null)">3<br><span style="font-size:0.5rem;opacity:0.6;">LEFT</span></button>
       </div>
     </div>
   </div>
@@ -2869,6 +2942,7 @@
 const demoState = {
   open: false,
   camera: 'top',
+  machine: 'excavator', // 'excavator' or 'dumptruck'
   truck: { x: 450, y: 300, angle: 0, speed: 0, maxSpeed: 3, damper: 0, damperTarget: 0 },
   keys: {},
   animFrame: null,
@@ -2877,15 +2951,57 @@ const demoState = {
 };
 
 function openDemo() {
+  // Show machine selector, not demo directly
+  const sel = document.getElementById('machineSelectorOverlay');
+  sel.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMachineSelector() {
+  document.getElementById('machineSelectorOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function selectMachine(type) {
+  demoState.machine = type;
+  // Update modal title and labels
+  const titleEl = document.getElementById('demoModalTitle');
+  const badgeEl = document.getElementById('machineTypeBadge');
+  const damperCtrl = document.getElementById('damperControlLabel');
+  if (type === 'excavator') {
+    titleEl.textContent = 'RC WORLD · LIVE DEMO · EXCAVATOR';
+    badgeEl.textContent = '⛏ EXCAVATOR';
+    if (damperCtrl) damperCtrl.textContent = 'BUCKET';
+  } else {
+    titleEl.textContent = 'RC WORLD · LIVE DEMO · DUMP TRUCK';
+    badgeEl.textContent = '🚛 DUMP TRUCK';
+    if (damperCtrl) damperCtrl.textContent = 'BED';
+  }
+  // Reset truck state
+  demoState.truck = { x: 450, y: 300, angle: 0, speed: 0, maxSpeed: type === 'dumptruck' ? 4 : 3, damper: 0, damperTarget: 0 };
+  demoState.dustParticles = [];
+  // Hide selector, show demo
+  document.getElementById('machineSelectorOverlay').style.display = 'none';
   const modal = document.getElementById('demoModal');
   modal.style.display = 'flex';
   demoState.open = true;
-  document.body.style.overflow = 'hidden';
   // Prevent page scroll when touching inside modal
   modal.addEventListener('touchmove', function(e){ e.stopPropagation(); }, {passive:true});
+  updateDamperLabel();
   startDemoLoop();
   window.addEventListener('keydown', demoBtnDown);
   window.addEventListener('keyup', demoBtnUp);
+}
+
+function backToSelector() {
+  // Close demo, reopen selector
+  const modal = document.getElementById('demoModal');
+  modal.style.display = 'none';
+  demoState.open = false;
+  cancelAnimationFrame(demoState.animFrame);
+  window.removeEventListener('keydown', demoBtnDown);
+  window.removeEventListener('keyup', demoBtnUp);
+  document.getElementById('machineSelectorOverlay').style.display = 'flex';
 }
 
 function closeDemo() {
@@ -2935,13 +3051,15 @@ function triggerDamper(dir) {
 
 function updateDamperLabel() {
   const el = document.getElementById('damperLabel');
-  if (el) el.textContent = 'DAMPER: ' + (demoState.truck.damperTarget > 0.5 ? 'AÇIK ▲' : 'KAPALI');
-  el.style.color = demoState.truck.damperTarget > 0.5 ? 'rgba(255,107,0,0.9)' : 'rgba(255,255,255,0.6)';
+  const isTruck = demoState.machine === 'dumptruck';
+  const prefix = isTruck ? 'BED' : 'BUCKET';
+  if (el) el.textContent = prefix + ': ' + (demoState.truck.damperTarget > 0.5 ? 'RAISED ▲' : 'LOWERED');
+  if (el) el.style.color = demoState.truck.damperTarget > 0.5 ? 'rgba(255,107,0,0.9)' : 'rgba(255,255,255,0.6)';
 }
 
 function setCamera(cam, btnEl) {
   demoState.camera = cam;
-  const labels = { top:'📷 TEPE KAMERASI', right:'📷 SAĞ KAMERA', left:'📷 SOL KAMERA' };
+  const labels = { top:'🦅 BIRD\'S EYE · TOP CAMERA', right:'📷 CAM 2 · RIGHT SIDE', left:'📷 CAM 3 · LEFT SIDE' };
   const el = document.getElementById('camLabel');
   if (el) el.textContent = labels[cam];
   // Update overlay buttons
@@ -2977,8 +3095,16 @@ function updateTruck() {
   else t.speed *= 0.92; // friction
   
   // Move
-  t.x += Math.sin(t.angle) * t.speed;
-  t.y -= Math.cos(t.angle) * t.speed;
+  const moveCam = demoState.camera;
+  if (moveCam === 'left' || moveCam === 'right') {
+    // Side camera: truck moves left (negative X) when going forward
+    t.x -= t.speed * 1.0;
+    // Slight vertical drift based on steer angle for realism
+    t.y += Math.sin(t.angle) * t.speed * 0.25;
+  } else {
+    t.x += Math.sin(t.angle) * t.speed;
+    t.y -= Math.cos(t.angle) * t.speed;
+  }
   
   // Boundary wrap
   t.x = ((t.x % 900) + 900) % 900;
@@ -3100,107 +3226,511 @@ function renderScene(ctx, canvas) {
     ctx.globalAlpha = 1;
   });
   
-  // ===== DRAW DUMP TRUCK =====
+  // ===== DRAW MACHINE (branch by type) =====
+  if (demoState.machine === 'dumptruck') {
+    // ===== DUMP TRUCK =====
+    ctx.save();
+    ctx.translate(t.x, t.y);
+
+    if (cam === 'top') {
+      // ---- TRUE BIRD'S EYE VIEW: Dump Truck ----
+      ctx.rotate(t.angle);
+
+      // === GROUND SHADOW ===
+      ctx.save();
+      ctx.fillStyle = 'rgba(0,0,0,0.38)';
+      ctx.beginPath(); ctx.ellipse(2, 4, 30, 68, 0, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+
+      // === CHASSIS FRAME RAILS ===
+      ctx.fillStyle = '#5a2800';
+      ctx.fillRect(-16, -62, 6, 130);
+      ctx.fillRect(10, -62, 6, 130);
+      ctx.fillStyle = '#6a3200';
+      [-40, -10, 20, 50, 75].forEach(cy => { ctx.fillRect(-16, cy, 32, 4); });
+
+      // === FRONT BUMPER ===
+      ctx.fillStyle = '#2a2a2a';
+      ctx.beginPath(); ctx.roundRect(-21, -70, 42, 8, 2); ctx.fill();
+      ctx.fillStyle = '#444';
+      [-12, 0, 12].forEach(bx => { ctx.beginPath(); ctx.arc(bx, -67, 2, 0, Math.PI*2); ctx.fill(); });
+
+      // === FRONT AXLE WHEELS (steering) ===
+      [[-24, -46],[24, -46]].forEach(([wx, wy]) => {
+        ctx.save(); ctx.translate(wx, wy);
+        ctx.fillStyle = '#0d0d0d';
+        ctx.beginPath(); ctx.roundRect(-9, -15, 18, 30, 4); ctx.fill();
+        ctx.strokeStyle = '#1e1e1e'; ctx.lineWidth = 1.2;
+        [-10,-5,0,5,10].forEach(ty => { ctx.beginPath(); ctx.moveTo(-8,ty); ctx.lineTo(8,ty); ctx.stroke(); });
+        ctx.fillStyle = '#333'; ctx.beginPath(); ctx.roundRect(-5,-9,10,18,3); ctx.fill();
+        ctx.fillStyle = '#555'; ctx.beginPath(); ctx.arc(0,0,4,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#777'; ctx.beginPath(); ctx.arc(0,0,2,0,Math.PI*2); ctx.fill();
+        for(let i=0;i<6;i++){const a=i/6*Math.PI*2; ctx.fillStyle='#888'; ctx.beginPath(); ctx.arc(Math.cos(a)*3,Math.sin(a)*3,1,0,Math.PI*2); ctx.fill();}
+        ctx.restore();
+      });
+
+      // === REAR DUAL WHEELS (4 total, 2 per side) ===
+      [[-24,25],[24,25],[-24,55],[24,55]].forEach(([wx,wy]) => {
+        ctx.save(); ctx.translate(wx, wy);
+        ctx.fillStyle = '#0a0a0a';
+        ctx.beginPath(); ctx.roundRect(-10,-14,20,28,4); ctx.fill();
+        ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 1;
+        [-9,-4,1,6,11].forEach(ty => { ctx.beginPath(); ctx.moveTo(-9,ty); ctx.lineTo(9,ty); ctx.stroke(); });
+        ctx.fillStyle = '#252525'; ctx.beginPath(); ctx.roundRect(-6,-10,12,20,3); ctx.fill();
+        ctx.fillStyle = '#555'; ctx.beginPath(); ctx.arc(0,0,3.5,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#777'; ctx.beginPath(); ctx.arc(0,0,1.5,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+      });
+
+      // === CAB BODY (base) ===
+      ctx.fillStyle = '#BB4D00';
+      ctx.beginPath(); ctx.roundRect(-20,-64,40,46,4); ctx.fill();
+
+      // Cab roof panel (raised center)
+      ctx.fillStyle = '#D45800';
+      ctx.beginPath(); ctx.roundRect(-18,-62,36,40,3); ctx.fill();
+
+      // Cab roof center ridge
+      ctx.fillStyle = '#FF6B00';
+      ctx.beginPath(); ctx.roundRect(-5,-61,10,38,2); ctx.fill();
+
+      // A-pillar lines
+      ctx.fillStyle = '#882800';
+      ctx.fillRect(-18,-62,4,40);
+      ctx.fillRect(14,-62,4,40);
+
+      // Windshield (wide trapezoidal glass)
+      ctx.fillStyle = 'rgba(0,210,255,0.22)';
+      ctx.strokeStyle = 'rgba(0,210,255,0.75)'; ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(-16,-64); ctx.lineTo(16,-64);
+      ctx.lineTo(13,-50); ctx.lineTo(-13,-50);
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+      // Wiper marks
+      ctx.strokeStyle = 'rgba(0,200,255,0.3)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.moveTo(-3,-64); ctx.lineTo(-9,-50); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(3,-64); ctx.lineTo(9,-50); ctx.stroke();
+
+      // Side windows
+      ctx.fillStyle = 'rgba(0,190,255,0.18)';
+      ctx.strokeStyle = 'rgba(0,200,255,0.5)'; ctx.lineWidth = 0.7;
+      ctx.beginPath(); ctx.roundRect(-19,-55,5,20,1); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.roundRect(14,-55,5,20,1); ctx.fill(); ctx.stroke();
+
+      // Cab rear firewall
+      ctx.fillStyle = '#7a2800';
+      ctx.fillRect(-18,-22,36,5);
+
+      // Rooftop AC / vent unit
+      ctx.fillStyle = '#662200';
+      ctx.beginPath(); ctx.roundRect(-9,-37,18,12,2); ctx.fill();
+      ctx.fillStyle = '#883300';
+      ctx.beginPath(); ctx.roundRect(-8,-36,16,10,1); ctx.fill();
+      ctx.strokeStyle = '#551a00'; ctx.lineWidth = 0.9;
+      [-34,-32,-30,-28].forEach(ay => { ctx.beginPath(); ctx.moveTo(-8,ay); ctx.lineTo(8,ay); ctx.stroke(); });
+
+      // Orange stripe on cab sides
+      ctx.fillStyle = 'rgba(255,107,0,0.5)';
+      ctx.fillRect(-19,-46,3,20);
+      ctx.fillRect(16,-46,3,20);
+
+      // Headlights
+      ctx.fillStyle = '#FFE55C';
+      ctx.shadowColor = '#FFD000'; ctx.shadowBlur = 8;
+      ctx.beginPath(); ctx.roundRect(-20,-68,9,5,1); ctx.fill();
+      ctx.beginPath(); ctx.roundRect(11,-68,9,5,1); ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = 'rgba(255,240,80,0.35)';
+      ctx.beginPath(); ctx.ellipse(-15,-67,6,3,0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(15,-67,6,3,0,0,Math.PI*2); ctx.fill();
+
+      // Exhaust stack
+      ctx.fillStyle = '#333';
+      ctx.beginPath(); ctx.arc(-13,-60,3,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(130,130,130,0.28)';
+      ctx.beginPath(); ctx.arc(-13,-65,5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(100,100,100,0.12)';
+      ctx.beginPath(); ctx.arc(-13,-71,7,0,Math.PI*2); ctx.fill();
+
+      // === DUMP BED ===
+      const bedLift = t.damper * 0.4;
+
+      // Bed outer walls
+      ctx.fillStyle = '#7a1e00';
+      ctx.beginPath(); ctx.roundRect(-20,-18,40,88,2); ctx.fill();
+
+      // Bed floor/inner
+      const bedForeH = 80 * (1 - bedLift * 0.4);
+      ctx.fillStyle = '#9e2800';
+      ctx.beginPath(); ctx.roundRect(-16,-15,32,bedForeH,1); ctx.fill();
+
+      // Structural ribs across bed
+      ctx.strokeStyle = '#6b1500'; ctx.lineWidth = 1.3;
+      [-5, 10, 26, 42, 56].forEach(ry => {
+        ctx.beginPath(); ctx.moveTo(-16,ry); ctx.lineTo(16,ry); ctx.stroke();
+      });
+
+      // Side walls (raised, casting inner shadow)
+      ctx.fillStyle = '#5c1000';
+      ctx.fillRect(-20,-18,4,bedForeH);
+      ctx.fillRect(16,-18,4,bedForeH);
+      // Inner shadow on side walls
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      ctx.fillRect(-16,-18,3,bedForeH);
+      ctx.fillRect(13,-18,3,bedForeH);
+
+      // Dirt load
+      if (t.damper < 0.65) {
+        ctx.fillStyle = '#5e3209';
+        ctx.beginPath(); ctx.ellipse(0,22,13,30,0,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#6d3d10';
+        ctx.beginPath(); ctx.ellipse(-2,15,9,20,0.2,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#7d4c1c';
+        ctx.beginPath(); ctx.ellipse(3,30,6,12,-0.15,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#4f2806';
+        [[5,12],[-6,28],[2,42],[-3,20],[7,36]].forEach(([dx,dy]) => {
+          ctx.beginPath(); ctx.arc(dx,dy,1.8,0,Math.PI*2); ctx.fill();
+        });
+      }
+
+      // Bed hinge glow if raised
+      if (bedLift > 0.08) {
+        ctx.fillStyle = `rgba(255,140,0,${bedLift*0.65})`;
+        ctx.fillRect(-20,-18,40,3);
+        ctx.fillStyle = `rgba(0,0,0,${bedLift*0.5})`;
+        ctx.fillRect(-20,-15,40,4);
+      }
+
+      // Tailgate
+      ctx.fillStyle = '#4a0e00';
+      ctx.beginPath(); ctx.roundRect(-20,66,40,6,1); ctx.fill();
+      ctx.fillStyle = '#888';
+      ctx.beginPath(); ctx.arc(-9,69,2,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(9,69,2,0,Math.PI*2); ctx.fill();
+
+      // Hydraulic ram
+      ctx.fillStyle = '#555';
+      ctx.beginPath(); ctx.roundRect(-3,-20,6,10,2); ctx.fill();
+      ctx.fillStyle = '#888';
+      ctx.beginPath(); ctx.roundRect(-2,-19,4,7,1); ctx.fill();
+
+      // Rear lights
+      ctx.fillStyle = '#cc1100';
+      ctx.shadowColor = '#ff2200'; ctx.shadowBlur = 5;
+      ctx.beginPath(); ctx.roundRect(-20,66,8,4,1); ctx.fill();
+      ctx.beginPath(); ctx.roundRect(12,66,8,4,1); ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // RC label
+      ctx.fillStyle = 'rgba(255,107,0,0.55)';
+      ctx.font = 'bold 7px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('RC', 0, 26);
+
+    } else {
+      // ---- SIDE / ANGLED VIEWS ----
+      if (cam === 'right') { ctx.scale(1, 0.75); ctx.translate(20, 0); }
+      if (cam === 'left')  { ctx.scale(1, 0.75); ctx.translate(-20, 0); }
+      ctx.rotate(-Math.PI / 2 + t.angle * 0.15);
+
+      const bedAngle = t.damper * 0.6;
+
+      // Shadow
+      ctx.save();
+      ctx.scale(1.4, 0.2);
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.beginPath(); ctx.ellipse(0, 80, 55, 18, 0, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+
+      // --- WHEELS (6×6) ---
+      const wheelPositions = [[-36, 28],[0, 28],[36, 28],[-36, -18],[0, -18],[36, -18]];
+      const wRot = (demoState.gridOffset * 0.3);
+      wheelPositions.forEach(([wx, wy]) => {
+        ctx.save();
+        ctx.translate(wx, wy);
+        ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(0,0,13,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.rotate(wRot);
+        ctx.fillStyle = '#2a2a2a'; ctx.beginPath(); ctx.arc(0,0,7,0,Math.PI*2); ctx.fill();
+        for(let i=0;i<5;i++){
+          const a=i/5*Math.PI*2;
+          ctx.fillStyle='#444';ctx.beginPath();ctx.arc(Math.cos(a)*5,Math.sin(a)*5,1.5,0,Math.PI*2);ctx.fill();
+        }
+        ctx.restore();
+      });
+
+      // Chassis
+      ctx.fillStyle = '#AA4400';
+      ctx.beginPath(); ctx.roundRect(-48, -24, 96, 44, 3); ctx.fill();
+
+      // Cab
+      ctx.fillStyle = '#CC5500';
+      ctx.beginPath(); ctx.roundRect(-48, -50, 42, 34, 4); ctx.fill();
+      ctx.fillStyle = '#FF6B00';
+      ctx.beginPath(); ctx.roundRect(-46, -48, 38, 30, 3); ctx.fill();
+      ctx.fillStyle = 'rgba(0,200,255,0.18)';
+      ctx.strokeStyle = 'rgba(0,200,255,0.45)'; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.roundRect(-44, -46, 34, 22, 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#FFD000';
+      ctx.fillRect(-26, -54, 20, 5);
+
+      // Dump bed
+      ctx.save();
+      ctx.translate(-6, -30);
+      ctx.rotate(-bedAngle);
+      ctx.fillStyle = '#993300';
+      ctx.beginPath(); ctx.roundRect(-2, -38, 58, 16, 2); ctx.fill();
+      ctx.fillRect(-2, -38, 56, 2);
+      ctx.fillStyle = '#BB4400';
+      ctx.beginPath(); ctx.roundRect(0, -36, 54, 26, 2); ctx.fill();
+      ctx.fillStyle = '#993300';
+      ctx.fillRect(52, -38, 4, 28);
+      ctx.fillRect(-2, -38, 4, 28);
+      if (t.damper < 0.7) {
+        ctx.fillStyle = '#7a4a18';
+        ctx.beginPath(); ctx.ellipse(27, -25, 22, 8, 0, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#8a5a28';
+        ctx.beginPath(); ctx.ellipse(24, -28, 14, 5, -0.1, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.fillStyle = '#777';
+      ctx.fillRect(8, -10, 6, 12);
+      ctx.fillStyle = '#999';
+      ctx.fillRect(9, -2, 4, 8);
+      ctx.restore();
+
+      // Exhaust
+      ctx.fillStyle = '#555';
+      ctx.fillRect(-35, -58, 5, 14);
+      ctx.fillStyle = '#333';
+      ctx.beginPath(); ctx.arc(-33, -60, 4, 0, Math.PI*2); ctx.fill();
+
+      ctx.fillStyle = 'rgba(255,107,0,0.45)';
+      ctx.font = 'bold 5px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('RC', -10, -10);
+    }
+
+    ctx.restore(); // dump truck
+
+    // HUD: speed indicator
+    const spd2 = Math.abs(t.speed);
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fillRect(W-90, H-60, 80, 44);
+    ctx.strokeStyle = 'rgba(255,107,0,0.3)'; ctx.lineWidth=1;
+    ctx.strokeRect(W-90, H-60, 80, 44);
+    ctx.fillStyle = 'rgba(255,107,0,0.6)';
+    ctx.font = '600 10px "Barlow Condensed", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('SPEED', W-84, H-46);
+    ctx.fillStyle = '#FF6B00';
+    ctx.font = 'bold 18px "Barlow Condensed", sans-serif';
+    ctx.fillText(Math.round(spd2 * 40) + ' km/h', W-84, H-26);
+
+  } else {
+  // ===== DRAW EXCAVATOR =====
   ctx.save();
   ctx.translate(t.x, t.y);
-  
-  // Camera angle adjustments
-  let scaleY = 1;
-  if (cam === 'right') { ctx.scale(1, 0.75); ctx.translate(15, 0); }
-  if (cam === 'left') { ctx.scale(1, 0.75); ctx.translate(-15, 0); }
-  
-  ctx.rotate(t.angle);
-  
-  const damperAngle = t.damper * -0.65; // tilt back when raised
-  
-  // Shadow
-  ctx.save();
-  ctx.scale(1 + t.damper*0.1, 0.3);
-  ctx.fillStyle = 'rgba(0,0,0,0.4)';
-  ctx.beginPath(); ctx.ellipse(0, 80, 42, 22, 0, 0, Math.PI*2); ctx.fill();
-  ctx.restore();
-  
-  // --- WHEELS ---
-  const wheels = [[-22,-30],[22,-30],[-24,20],[24,20]];
-  wheels.forEach(([wx, wy]) => {
-    ctx.save(); ctx.translate(wx, wy);
-    // Wheel rotation based on speed
-    ctx.fillStyle = '#222'; ctx.beginPath(); ctx.arc(0,0,11,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle = '#444'; ctx.lineWidth=2; ctx.stroke();
-    ctx.fillStyle = '#333'; ctx.beginPath(); ctx.arc(0,0,6,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle = '#555'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(0,-10); ctx.lineTo(0,10); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(-10,0); ctx.lineTo(10,0); ctx.stroke();
+
+  if (cam === 'top') {
+    // ---- TRUE BIRD'S EYE VIEW: Excavator ----
+    ctx.rotate(t.angle);
+
+    // Boom arm reach (animated, extends forward = negative Y in local space)
+    const boomReach = 0.5 + t.damper * 0.4;
+    const armExtendY = -38 - boomReach * 28; // how far forward the arm reaches
+
+    // Ground shadow
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,0.32)';
+    ctx.beginPath(); ctx.ellipse(0, 5, 28, 20, 0, 0, Math.PI*2); ctx.fill();
+    // Arm shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.beginPath(); ctx.roundRect(-3, armExtendY, 6, Math.abs(armExtendY)+10, 2); ctx.fill();
     ctx.restore();
-  });
-  
-  // --- CHASSIS ---
-  ctx.fillStyle = '#CC5500';
-  ctx.fillRect(-28, -45, 56, 90);
-  
-  // --- CABIN ---
-  ctx.fillStyle = '#FF6B00';
-  ctx.fillRect(-20, -45, 42, 40);
-  // Cabin details
-  ctx.fillStyle = 'rgba(0,200,255,0.2)';
-  ctx.fillRect(-16,-41,18,14);
-  ctx.fillRect(6,-41,14,14);
-  ctx.strokeStyle='rgba(0,200,255,0.4)'; ctx.lineWidth=0.5;
-  ctx.strokeRect(-16,-41,18,14); ctx.strokeRect(6,-41,14,14);
-  // Cabin roof light
-  ctx.fillStyle='#FFD000';
-  ctx.fillRect(-6,-50,12,6);
-  
-  // --- DUMP BED ---
-  ctx.save();
-  ctx.translate(0, 15); // pivot point at rear of cab
-  ctx.rotate(damperAngle);
-  
-  // Bed frame
-  ctx.fillStyle = '#AA4400';
-  ctx.fillRect(-24, -10, 48, 55);
-  ctx.fillStyle = '#CC5500';
-  ctx.fillRect(-22, -8, 44, 50);
-  
-  // Cargo (dirt)
-  if (t.damper < 0.5) {
-    ctx.fillStyle = '#7a4a18';
-    ctx.beginPath();
-    ctx.moveTo(-20, -6); ctx.lineTo(20, -6);
-    ctx.lineTo(18, -18); ctx.lineTo(-18, -18);
-    ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#8a5520';
-    ctx.beginPath();
-    ctx.ellipse(0, -14, 14, 5, 0, 0, Math.PI*2); ctx.fill();
-  }
-  
-  // Bed side rails
-  ctx.fillStyle = '#884400';
-  ctx.fillRect(-24, -10, 4, 55);
-  ctx.fillRect(20, -10, 4, 55);
-  // Tailgate
-  const tailH = 12 * (1 - t.damper);
-  ctx.fillStyle = '#993300';
-  ctx.fillRect(-24, 45 - tailH, 48, tailH);
-  
-  // Falling dirt when raised
-  if (t.damper > 0.3) {
-    const a = t.damper - 0.3;
-    ctx.fillStyle = `rgba(120,70,20,${a*0.8})`;
-    for (let i = 0; i < 5; i++) {
-      ctx.beginPath();
-      ctx.arc(-15+i*8, 40 + i*5*a, 3+i*a, 0, Math.PI*2); ctx.fill();
+
+    // --- TRACKS (top view: two rectangular pads on sides) ---
+    // Left track
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.roundRect(-30, -22, 12, 52, 6); ctx.fill();
+    ctx.fillStyle = '#2d2d2d';
+    ctx.beginPath(); ctx.roundRect(-28, -20, 8, 48, 5); ctx.fill();
+    // Track tread lines
+    ctx.strokeStyle = '#383838'; ctx.lineWidth = 1;
+    for(let ty = -18; ty < 28; ty += 6) {
+      ctx.beginPath(); ctx.moveTo(-28, ty); ctx.lineTo(-20, ty); ctx.stroke();
     }
+    // Right track
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.roundRect(18, -22, 12, 52, 6); ctx.fill();
+    ctx.fillStyle = '#2d2d2d';
+    ctx.beginPath(); ctx.roundRect(20, -20, 8, 48, 5); ctx.fill();
+    ctx.strokeStyle = '#383838';
+    for(let ty = -18; ty < 28; ty += 6) {
+      ctx.beginPath(); ctx.moveTo(20, ty); ctx.lineTo(28, ty); ctx.stroke();
+    }
+    // Track end sprockets
+    [[-24,-22],[24,-22],[-24,30],[24,30]].forEach(([sx,sy]) => {
+      ctx.fillStyle = '#333'; ctx.beginPath(); ctx.arc(sx,sy,7,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#444'; ctx.beginPath(); ctx.arc(sx,sy,3,0,Math.PI*2); ctx.fill();
+    });
+
+    // --- UNDERCARRIAGE (top view: rectangle between tracks) ---
+    ctx.fillStyle = '#883300';
+    ctx.beginPath(); ctx.roundRect(-18, -18, 36, 46, 3); ctx.fill();
+
+    // --- UPPER BODY (slightly rotated with boom for feel) ---
+    ctx.fillStyle = '#CC5500';
+    ctx.beginPath(); ctx.roundRect(-16, -16, 32, 36, 4); ctx.fill();
+
+    // Counterweight (rear half-circle)
+    ctx.fillStyle = '#882200';
+    ctx.beginPath();
+    ctx.arc(0, 18, 16, 0, Math.PI);
+    ctx.closePath(); ctx.fill();
+
+    // CAB roof (front-left quarter of upper body)
+    ctx.fillStyle = '#FF6B00';
+    ctx.beginPath(); ctx.roundRect(-16, -16, 22, 24, 4); ctx.fill();
+    // Cab glass (top view: bright rectangle)
+    ctx.fillStyle = 'rgba(0,200,255,0.28)';
+    ctx.strokeStyle = 'rgba(0,200,255,0.65)'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.roundRect(-14, -14, 18, 18, 3); ctx.fill(); ctx.stroke();
+    // Cab roof warning light
+    ctx.fillStyle = '#FFD000';
+    ctx.beginPath(); ctx.arc(-6, -17, 4, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,208,0,0.3)';
+    ctx.beginPath(); ctx.arc(-6, -17, 7, 0, Math.PI*2); ctx.fill();
+
+    // --- BOOM ARM (top view: thin rectangle pointing forward) ---
+    ctx.save();
+    // Pivot at top of upper body, extends forward
+    ctx.translate(2, -14);
+    // Boom (top view: thin bar going up/forward)
+    ctx.fillStyle = '#CC5500';
+    ctx.beginPath(); ctx.roundRect(-4, armExtendY + 14, 8, Math.abs(armExtendY), 2); ctx.fill();
+    // Hydraulic line (parallel to boom)
+    ctx.fillStyle = '#666';
+    ctx.fillRect(-2, armExtendY + 18, 3, Math.abs(armExtendY) * 0.65);
+
+    // Stick (extension of boom)
+    ctx.fillStyle = '#FF6B00';
+    ctx.beginPath(); ctx.roundRect(-3, armExtendY - 14, 6, 16, 2); ctx.fill();
+
+    // Bucket (top view: slightly wider end with teeth)
+    ctx.fillStyle = '#2a2a2a';
+    const bx = armExtendY - 14;
+    ctx.beginPath();
+    ctx.moveTo(-10, bx); ctx.lineTo(10, bx);
+    ctx.lineTo(8, bx-10); ctx.lineTo(-8, bx-10);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#555'; ctx.lineWidth = 0.8; ctx.stroke();
+    // Bucket teeth (top view: dots along leading edge)
+    ctx.fillStyle = '#555';
+    [-6,-2,2,6].forEach(tx => {
+      ctx.beginPath(); ctx.arc(tx, bx-11, 2, 0, Math.PI*2); ctx.fill();
+    });
+    // Dirt in bucket (top view)
+    if (t.damper < 0.5) {
+      ctx.fillStyle = '#7a4a18';
+      ctx.beginPath(); ctx.ellipse(0, bx-5, 7, 3, 0, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.restore(); // boom+arm
+
+    // RC label
+    ctx.fillStyle = 'rgba(255,107,0,0.5)';
+    ctx.font = 'bold 6px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('RC', -4, 8);
+
+  } else {
+    // ---- SIDE / ANGLED VIEWS: Excavator ----
+    if (cam === 'right') { ctx.scale(1, 0.75); ctx.translate(15, 0); }
+    if (cam === 'left')  { ctx.scale(1, 0.75); ctx.translate(-15, 0); }
+    ctx.rotate(-Math.PI / 2 + t.angle * 0.15);
+
+    const boomAngle = -0.6 + t.damper * -0.5;
+    const stickAngle = 0.4 + t.damper * 0.4;
+
+    // Shadow
+    ctx.save();
+    ctx.scale(1.1, 0.25);
+    ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.beginPath(); ctx.ellipse(0, 60, 44, 18, 0, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // Tracks
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.roundRect(-32, -10, 18, 50, 9); ctx.fill();
+    ctx.fillStyle = '#262626';
+    ctx.beginPath(); ctx.roundRect(-30, -8, 14, 46, 7); ctx.fill();
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.roundRect(14, -10, 18, 50, 9); ctx.fill();
+    ctx.fillStyle = '#262626';
+    ctx.beginPath(); ctx.roundRect(16, -8, 14, 46, 7); ctx.fill();
+    [[-23,36],[23,36],[-23,-2],[23,-2]].forEach(([wx,wy]) => {
+      ctx.fillStyle = '#333'; ctx.beginPath(); ctx.arc(wx,wy,8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#444'; ctx.beginPath(); ctx.arc(wx,wy,4,0,Math.PI*2); ctx.fill();
+    });
+
+    ctx.fillStyle = '#AA4400';
+    ctx.fillRect(-28, 2, 56, 32);
+    ctx.fillStyle = '#CC5500';
+    ctx.beginPath(); ctx.roundRect(-24, -20, 48, 28, 4); ctx.fill();
+    ctx.fillStyle = '#FF6B00';
+    ctx.beginPath(); ctx.roundRect(-22, -38, 26, 24, 3); ctx.fill();
+    ctx.fillStyle = 'rgba(0,200,255,0.18)';
+    ctx.strokeStyle = 'rgba(0,200,255,0.5)'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.roundRect(-19, -35, 20, 16, 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#FFD000';
+    ctx.fillRect(-10, -42, 14, 5);
+    ctx.fillStyle = '#993300';
+    ctx.beginPath(); ctx.roundRect(12, -18, 14, 14, 2); ctx.fill();
+
+    ctx.save();
+    ctx.translate(4, -30);
+    ctx.rotate(boomAngle);
+    ctx.fillStyle = '#CC5500';
+    ctx.beginPath(); ctx.roundRect(-5, -48, 10, 52, 3); ctx.fill();
+    ctx.fillStyle = '#777';
+    ctx.save(); ctx.rotate(0.18);
+    ctx.fillRect(-3, -30, 5, 28); ctx.restore();
+
+    ctx.save();
+    ctx.translate(0, -46);
+    ctx.rotate(stickAngle);
+    ctx.fillStyle = '#FF6B00';
+    ctx.beginPath(); ctx.roundRect(-4, -36, 8, 40, 2); ctx.fill();
+    ctx.fillStyle = '#888';
+    ctx.save(); ctx.rotate(-0.15);
+    ctx.fillRect(-2, -22, 4, 24); ctx.restore();
+
+    ctx.save();
+    ctx.translate(0, -34);
+    ctx.fillStyle = '#2a2a2a';
+    ctx.beginPath();
+    ctx.moveTo(-12, 0); ctx.lineTo(12, 0);
+    ctx.lineTo(14, 16); ctx.lineTo(0, 22); ctx.lineTo(-14, 16);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#555'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.fillStyle = '#444';
+    [-8, -2, 4, 10].forEach(tx => {
+      ctx.beginPath(); ctx.moveTo(tx, 20); ctx.lineTo(tx+4, 20); ctx.lineTo(tx+2, 26); ctx.closePath(); ctx.fill();
+    });
+    if (t.damper < 0.5) {
+      ctx.fillStyle = '#7a4a18';
+      ctx.beginPath(); ctx.ellipse(1, 10, 9, 5, 0, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+    ctx.restore();
+    ctx.restore();
+
+    ctx.fillStyle = 'rgba(255,107,0,0.45)';
+    ctx.font = 'bold 6px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('RC', -9, -4);
   }
-  ctx.restore();
   
-  // Orange RC World logo on side
-  ctx.fillStyle = 'rgba(255,107,0,0.5)';
-  ctx.font = 'bold 7px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('RC', 0, -20);
-  
-  ctx.restore(); // truck
+  ctx.restore(); // excavator
   
   // HUD: speed indicator
   const spd = Math.abs(t.speed);
@@ -3211,11 +3741,13 @@ function renderScene(ctx, canvas) {
   ctx.fillStyle = 'rgba(255,107,0,0.6)';
   ctx.font = '600 10px "Barlow Condensed", sans-serif';
   ctx.textAlign = 'left';
-  ctx.fillText('HIZ', W-84, H-46);
+  ctx.fillText('SPEED', W-84, H-46);
   ctx.fillStyle = '#FF6B00';
   ctx.font = 'bold 18px "Barlow Condensed", sans-serif';
   ctx.fillText(Math.round(spd * 33) + ' km/h', W-84, H-26);
   
+  } // end else (excavator)
+
   ctx.restore(); // camera translate
   
   // Scanlines overlay
@@ -3229,8 +3761,22 @@ function renderScene(ctx, canvas) {
   vig.addColorStop(0,'transparent'); vig.addColorStop(1,'rgba(0,0,0,0.5)');
   ctx.fillStyle = vig; ctx.fillRect(0,0,W,H);
   
-  // Camera-specific color grading
-  if (cam === 'right') {
+  // Camera-specific color grading + HUD overlays
+  if (cam === 'top') {
+    // Subtle top-down tint: slight desaturated green for ground feel
+    ctx.fillStyle = 'rgba(20,40,0,0.04)';
+    ctx.fillRect(0,0,W,H);
+    // Bird's eye indicator
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(W/2-70, 12, 140, 24);
+    ctx.strokeStyle = 'rgba(255,208,0,0.4)'; ctx.lineWidth = 1;
+    ctx.strokeRect(W/2-70, 12, 140, 24);
+    ctx.fillStyle = '#FFD000';
+    ctx.font = 'bold 10px "Barlow Condensed", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '0.15em';
+    ctx.fillText('🦅  BIRD\'S EYE VIEW', W/2, 28);
+  } else if (cam === 'right') {
     ctx.fillStyle = 'rgba(255,107,0,0.04)';
     ctx.fillRect(0,0,W,H);
   } else if (cam === 'left') {
