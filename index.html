@@ -2677,7 +2677,7 @@
         <div class="calc-row">
           <div class="calc-label">Machines in fleet</div>
           <div class="calc-slider-wrap">
-            <input type="range" class="calc-slider" id="sliderMachines" min="1" max="11" value="5" oninput="updateCalc()">
+            <input type="range" class="calc-slider" id="sliderMachines" min="1" max="5" value="3" oninput="updateCalc()">
             <div class="calc-slider-val" id="valMachines">5</div>
           </div>
         </div>
@@ -2703,13 +2703,20 @@
           <div class="calc-value" id="calcDaily">$1,000</div>
         </div>
         <div class="calc-row">
-          <div class="calc-label">Monthly revenue</div>
-          <div class="calc-value" id="calcMonthly">$30,000</div>
+          <div class="calc-label" style="display:flex;flex-direction:column;gap:3px;">
+            <span>Daily net income</span>
+            <span id="calcExpenseBreakdown" style="font-size:0.7rem;color:rgba(255,107,0,0.6);font-weight:400;letter-spacing:0.03em;">(−$100 parts, rent, maint., operating)</span>
+          </div>
+          <div class="calc-value" id="calcDailyNet" style="color:#FFD000;">$900</div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-label">Monthly net income</div>
+          <div class="calc-value" id="calcMonthly">$27,000</div>
         </div>
 
         <div class="calc-total-row">
           <div class="calc-total-label">Break-even estimate</div>
-          <div class="calc-total-value" id="calcBreakeven">~10 days</div>
+          <div class="calc-total-value" id="calcBreakeven">~12 days</div>
         </div>
         <div class="projection-formula" id="calcFormula">$25/hr × 8h × 5 machines = $1,000/day</div>
       </div>
@@ -3877,10 +3884,15 @@ function renderScene(ctx, canvas) {
     document.getElementById('valRate').textContent = '$' + rate;
 
     const daily = rate * hours * machines;
-    const monthly = daily * 30;
-    const breakeven = Math.ceil(10140 / daily);
+    const expenses = Math.round(daily * 0.10);
+    const dailyNet = daily - expenses;
+    const monthly = dailyNet * 30;
+    const breakeven = Math.ceil(10140 / dailyNet);
 
     document.getElementById('calcDaily').textContent = '$' + daily.toLocaleString();
+    document.getElementById('calcDailyNet').textContent = '$' + dailyNet.toLocaleString();
+    document.getElementById('calcExpenseBreakdown').textContent =
+      '(−$' + expenses.toLocaleString() + ' parts, rent, maint., operating)';
     document.getElementById('calcMonthly').textContent = '$' + monthly.toLocaleString();
     document.getElementById('calcBreakeven').textContent = '~' + breakeven + (breakeven === 1 ? ' day' : ' days');
     document.getElementById('calcFormula').textContent =
